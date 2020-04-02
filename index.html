@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB client</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <h1>Monogo DB Client Site</h1>
+    <p id='userName'></p>
+    <div class="container">
+        <div class="row">
+            <input type="text" class="form-control" placeholder="product name" id="name">
+            <input type="text" class="form-control" placeholder="Price" id="price">
+            <input type="text" class="form-control" placeholder="Stock" id="stock">
+            <button class="btn btn-primary" id="addBtn">Add</button>
+        </div>
+    </div>
+
+
+    <script>
+        // fetch('http://localhost:42000/user/0')
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         let name = document.getElementById('userName')
+        //         name.innerText = data.name
+        //     })
+        //post method
+        const btnAddUser = document.getElementById('addBtn');
+        btnAddUser.addEventListener('click', () => {
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const stock = document.getElementById('stock').value;
+            const product = { name, price, stock };
+            console.log(product);
+            //post
+            fetch('http://localhost:4200/addProduct', {
+                method: 'POST',
+                body: JSON.stringify(product),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("data is coming", data);
+                })
+
+        })
+    </script>
+</body>
+
+</html>
