@@ -19,14 +19,20 @@ app.get('/user/:id', (req, res) => {
 })
 
 const uri = "mongodb+srv://sojib_bd:Ol57pkWa60V2h0UB@cluster0-o5pd4.mongodb.net/test?retryWrites=true&w=majority";
+let client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.post('/addProduct', (req, res) => {
+    client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     const product = req.body;
-    client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     client.connect(err => {
         const collection = client.db("onlineStore").collection("products");
         collection.insertOne(product, (err, result) => {
-            console.log('insert successfully', result)
+            if (err) {
+                console.log(err)
+            }
+            else {
+                res.send(result.ops[0])
+            }
         });
         client.close();
     });
